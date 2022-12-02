@@ -28,7 +28,6 @@ func main() {
 	fmt.Println("Running part", part)
 
 	if part == 1 {
-		//ans := part1(input)
 		ans := part1(input)
 		util.CopyToClipboard(fmt.Sprintf("%v", ans))
 		fmt.Println("Output:", ans)
@@ -55,7 +54,16 @@ func part1(input string) int {
 }
 
 func part2(input string) int {
-	return 0
+	elves := parseInput(input)
+	elfCalorieSums := util.Map(elves, func(elfCalories []int) int {
+		return util.Reduce(elfCalories, func(acc int, current int) int {
+			return acc + current
+		}, 0)
+	})
+	sort.Sort(sort.Reverse(sort.IntSlice(elfCalorieSums)))
+	topThreeElves := elfCalorieSums[:3]
+	return util.SumSlice(topThreeElves)
+
 }
 
 func parseInput(input string) (ans [][]int) {
